@@ -1,0 +1,25 @@
+﻿<Window x:Class="UI_Helper.Window2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Window2"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Loaded="Window_Loaded"
+        Height="300"
+        Width="500"
+        >
+    
+    <Grid Height="200" Width="390">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="390*" />
+            <ColumnDefinition Width="0*" />
+        </Grid.ColumnDefinitions>
+        <Label Height="28" Margin="12,3,0,0" Name="lbTextWidth" VerticalAlignment="Top">宽度</Label>
+        <TextBox Margin="20,26,26,0" Name="tbInputWidth" Height="29" VerticalAlignment="Top" />
+        <Label Height="28" Margin="12,63,12,0" Name="lbTextHeight" VerticalAlignment="Top">高度</Label>
+        <TextBox Margin="20,86,26,0" Name="tbInputHeight" Height="29" VerticalAlignment="Top" />
+        
+        <Button Height="23" HorizontalAlignment="Left" Margin="95,0,0,7" Name="btnOk" VerticalAlignment="Bottom" Width="75" Click="btnOk_Click">OK</Button>
+        <Button Height="23" Margin="193,0,125,7" Name="btnCancel" VerticalAlignment="Bottom" Click="btnCancel_Click">Annuler</Button>
+    </Grid>
+</Window>
