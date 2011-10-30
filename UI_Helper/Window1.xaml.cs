@@ -61,16 +61,16 @@ namespace UI_Helper
                     {
                         Image img = new Image();
 
-                        //RotateTransform rotateTransform = new RotateTransform(45);
-                        //rotateTransform.CenterX = 0;
-                        //rotateTransform.CenterY = 0;
+                        RotateTransform rotateTransform = new RotateTransform(45);
+                        rotateTransform.CenterX = 0;
+                        rotateTransform.CenterY = 0;
                         //TranslateTransform translateTransform = new TranslateTransform(0, 0);
-                        //TransformGroup transformGroup = new TransformGroup();
-                        //transformGroup.Children.Add(rotateTransform);
+                        TransformGroup transformGroup = new TransformGroup();
+                        transformGroup.Children.Add(rotateTransform);
                         //transformGroup.Children.Add(translateTransform);
                        
                         img.Source = bitmap;
-                        //img.RenderTransform = transformGroup;
+                        img.RenderTransform = transformGroup;
 
                         WPF.JoshSmith.Controls.DragCanvas.SetLocationPath(img, fileName);
                         this.dragCanvas.Children.Add(img);
@@ -103,8 +103,6 @@ namespace UI_Helper
         {
             if (this.elementForContextMenu == null)
                 return;
-
-       
 
             if (e.Source == this.menuItemBringToFront ||
                 e.Source == this.menuItemSendToBack)
