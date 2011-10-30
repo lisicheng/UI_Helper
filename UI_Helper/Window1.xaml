@@ -3,8 +3,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:jas="clr-namespace:WPF.JoshSmith.Controls" 
     Title="UI编辑助手V1.0" Width="1024" Height="800" Icon="/Images/UI_Helper.png">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.ColumnSpan="5" Grid.Row="0">
             <MenuItem Header="文件">
                 <MenuItem Header="导入图片" Click="MenuItem_Click_OpenPictureFile"/>
                 <Separator />
@@ -29,18 +42,21 @@
                 <MenuItem Header="关于" Click="MenuItem_Click_About"/>
             </MenuItem>
         </Menu>
-        <ScrollViewer DockPanel.Dock="Bottom" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.ColumnSpan="5" Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <jas:DragCanvas x:Name="dragCanvas" Background="LightGreen">
                 <jas:DragCanvas.ContextMenu>
-                    <ContextMenu Opened="ContextMenu_Opened"  MenuItem.Click="ContextMenu_Click" >
+                    <ContextMenu Opened="ContextMenu_Opened" MenuItem.Click="ContextMenu_Click">
                         <MenuItem Header="移动到最顶层" Name="menuItemBringToFront" />
                         <MenuItem Header="移动到最低层" Name="menuItemSendToBack" />
                         <Separator />
                         <MenuItem Header="是否可以移动" Name="menuItemCanBeDragged" />
                     </ContextMenu>
                 </jas:DragCanvas.ContextMenu>
-                
             </jas:DragCanvas>
         </ScrollViewer>
-    </DockPanel>
+        <Label Grid.Row="3" Name="label1" Grid.ColumnSpan="2">currentObjPath</Label>
+        <Slider Grid.Row="1" Name="slider1" Maximum="360" Grid.ColumnSpan="2" Margin="62.031,0,138.069,0" />
+        <Label Grid.Row="1" Margin="0,2,0,0" Name="label2" HorizontalAlignment="Left" Width="60.03">Rotation</Label>
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="61.364,0,60.697,0" Name="textBox1" />
+    </Grid>
 </Window>

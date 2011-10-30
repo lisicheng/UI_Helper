@@ -21,10 +21,10 @@ namespace UI_Helper
     public partial class Window1 : Window
     {
         private UIElement elementForContextMenu;
-        string MyStrEntered;
-
         string UserInputWidth;
         string UserInputHeight;
+        int mapWidth = 960;
+        int mapHeight = 640;
 
         public Window1()
         {
@@ -60,13 +60,24 @@ namespace UI_Helper
                     if (bitmap != null)
                     {
                         Image img = new Image();
+
+                        //RotateTransform rotateTransform = new RotateTransform(45);
+                        //rotateTransform.CenterX = 0;
+                        //rotateTransform.CenterY = 0;
+                        //TranslateTransform translateTransform = new TranslateTransform(0, 0);
+                        //TransformGroup transformGroup = new TransformGroup();
+                        //transformGroup.Children.Add(rotateTransform);
+                        //transformGroup.Children.Add(translateTransform);
+                       
                         img.Source = bitmap;
+                        //img.RenderTransform = transformGroup;
+
                         WPF.JoshSmith.Controls.DragCanvas.SetLocationPath(img, fileName);
                         this.dragCanvas.Children.Add(img);
                         img.Width = bitmap.PixelWidth;
                         img.Height = bitmap.PixelHeight;
-                        Canvas.SetBottom(img, 0.0);
-                        Canvas.SetLeft(img, 0.0);      
+                        Canvas.SetBottom(img, this.mapHeight/2);
+                        Canvas.SetLeft(img, this.mapWidth/2);      
                         this.ResetZOrder();
                     }
                 }
@@ -160,21 +171,29 @@ namespace UI_Helper
         {
             if (e.Source == this.iPhone_resolution)
             {
+                this.mapWidth = 480;
+                this.mapHeight = 320;
                 this.dragCanvas.Width = 480;
                 this.dragCanvas.Height = 320;
             }
             else if (e.Source == this.iPhone_Retina_resolution)
             {
+                this.mapWidth = 960;
+                this.mapHeight = 640;
                 this.dragCanvas.Width = 960;
                 this.dragCanvas.Height = 640;
             }
             else if (e.Source == this.iPad_resolution)
             {
+                this.mapWidth = 1024;
+                this.mapHeight = 768;
                 this.dragCanvas.Width = 1024;
                 this.dragCanvas.Height = 768;
             }
             else if (e.Source == this.Android_resolution)
             {
+                this.mapWidth = 800;
+                this.mapHeight = 480;
                 this.dragCanvas.Width = 800;
                 this.dragCanvas.Height = 480;
             }
@@ -188,6 +207,8 @@ namespace UI_Helper
                     int.TryParse(UserInputHeight, out height);
                     this.dragCanvas.Width = width;
                     this.dragCanvas.Height = height;
+                    this.mapWidth = width;
+                    this.mapHeight = height;
                 }
             }
         }

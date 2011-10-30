@@ -20,6 +20,6 @@
         <TextBox Margin="20,86,26,0" Name="tbInputHeight" Height="29" VerticalAlignment="Top" />
         
         <Button Height="23" HorizontalAlignment="Left" Margin="95,0,0,7" Name="btnOk" VerticalAlignment="Bottom" Width="75" Click="btnOk_Click">OK</Button>
-        <Button Height="23" Margin="193,0,125,7" Name="btnCancel" VerticalAlignment="Bottom" Click="btnCancel_Click">Annuler</Button>
+        <Button Height="23" Margin="193,0,125,7" Name="btnCancel" VerticalAlignment="Bottom" Click="btnCancel_Click">Cancel</Button>
     </Grid>
 </Window>
