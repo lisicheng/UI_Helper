@@ -12,5 +12,6 @@ namespace UI_Helper
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

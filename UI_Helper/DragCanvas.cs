@@ -300,7 +300,7 @@ namespace WPF.JoshSmith.Controls
 
 			// Set the Handled flag so that a control being dragged 
 			// does not react to the mouse input.
-			e.Handled = true;
+			e.Handled = false;
 
 			this.isDragInProgress = true;
 		}
