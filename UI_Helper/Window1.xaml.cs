@@ -189,6 +189,7 @@ namespace UI_Helper
                         img.Width = bitmap.PixelWidth;
                         img.Height = bitmap.PixelHeight;
                         Canvas.SetBottom(img, (this.mapHeight-img.Height)/2);
+                        Canvas.SetTop(img, (this.mapHeight-img.Height)/2);
                         Canvas.SetLeft(img, (this.mapWidth-img.Width)/2);      
                         this.ResetZOrder();
 
@@ -393,6 +394,130 @@ namespace UI_Helper
             }
         }
 
+        private void MenuItem_Click_export_ios_xml(object sender, RoutedEventArgs e)
+        {
+            ExportXMLFileForIOS();
+        }
+
+        private void ExportXMLFileForIOS()
+        {
+            if (this.backgroundElement == null)
+                MessageBox.Show("未设置背景图片");
+
+            Microsoft.Win32.SaveFileDialog saveFileDlg = new Microsoft.Win32.SaveFileDialog();
+            Nullable<bool> showDlg = saveFileDlg.ShowDialog();
+            if (showDlg == true)
+            {
+                string fileName = saveFileDlg.FileName;
+                FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+
+                sw.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                Window mainWindow = Application.Current.MainWindow;
+                PresentationSource currentPS = PresentationSource.FromVisual(mainWindow);
+                Matrix m = currentPS.CompositionTarget.TransformFromDevice;
+
+                double dpiWidthFactor = m.M11;
+                double dpiHeightFactor = m.M22;
+
+                sw.Write("<Bundles target=\"ios\" ");
+
+                double angle_back = 0;
+                double anchorX_back = 0;
+                double anchorY_back = 0;
+                double scaleX_back = 1.0;
+                double scaleY_back = 1.0;
+                double posX_back = 0;
+                double posY_back = 0;
+
+                if (this.backgroundElement == null)
+                {
+                    sw.Write(">\r\n");
+                }
+                else
+                {
+                    string path = WPF.JoshSmith.Controls.DragCanvas.GetLocationPath(this.backgroundElement);
+                    TransformGroup group = (TransformGroup)this.backgroundElement.RenderTransform;
+                    RotateTransform roTrans = group.Children[0] as RotateTransform;
+                    ScaleTransform scTrans = group.Children[1] as ScaleTransform;
+
+                    Image img = this.backgroundElement as Image;
+                    angle_back = roTrans.Angle;
+                    anchorX_back = roTrans.CenterX / img.Width;
+                    anchorY_back = 1 - roTrans.CenterY / img.Height;
+                    scaleX_back = scTrans.ScaleX;
+                    scaleY_back = scTrans.ScaleY;
+                    posX_back = Canvas.GetLeft(this.backgroundElement) * dpiWidthFactor + roTrans.CenterX;
+                    posY_back = Canvas.GetTop(this.backgroundElement) * dpiHeightFactor + img.Height - roTrans.CenterY;
+
+                    sw.WriteLine("Name=\"{0}\" Type=\"Pic\" angle=\"{1}\" anchorX=\"{2}\" anchorY=\"{3}\" scaleX=\"{4}\" scaleY=\"{5}\" posX=\"{6}\" posY=\"{7}\" width=\"{8}\" height=\"{9}\" >\r\n",
+                        path, angle_back, anchorX_back, anchorY_back, scaleX_back, scaleY_back, posX_back/2, posY_back/2, img.Width/2, img.Height/2);
+                    posX_back -= roTrans.CenterX;
+                    posY_back -= img.Height - roTrans.CenterY;
+                }
+
+                for (int i = 0; i < this.dragCanvas.Children.Count; ++i)
+                {
+                    if (this.dragCanvas.Children[i] == this.backgroundElement)
+                        continue;
+
+                    string path = WPF.JoshSmith.Controls.DragCanvas.GetLocationPath(this.dragCanvas.Children[i]);
+                    TransformGroup group = (TransformGroup)this.dragCanvas.Children[i].RenderTransform;
+                    RotateTransform roTrans = group.Children[0] as RotateTransform;
+                    ScaleTransform scTrans = group.Children[1] as ScaleTransform;
+
+                    double angle = 0.0;
+                    double anchorX = 0.5;
+                    double anchorY = 0.5;
+                    double scaleX = 1.0;
+                    double scaleY = 1.0;
+                    double posX = 0.0;
+                    double posY = 0.0;
+
+                    if (this.dragCanvas.Children[i] is Image)
+                    {
+                        Image img = this.dragCanvas.Children[i] as Image;
+                        angle = roTrans.Angle;
+                        anchorX = roTrans.CenterX / img.Width;
+                        anchorY = 1 - roTrans.CenterY / img.Height;
+                        scaleX = scTrans.ScaleX;
+                        scaleY = scTrans.ScaleY;
+                        posX = Canvas.GetLeft(this.dragCanvas.Children[i]) * dpiWidthFactor + roTrans.CenterX;
+                        posY = Canvas.GetTop(this.dragCanvas.Children[i]) * dpiHeightFactor + img.Height - roTrans.CenterY;
+
+                        posX -= posX_back;
+                        posY -= posY_back;
+
+                        sw.WriteLine("\t<Picture Name=\"{0}\" Type=\"Pic\" angle=\"{1}\" anchorX=\"{2}\" anchorY=\"{3}\" scaleX=\"{4}\" scaleY=\"{5}\" posX=\"{6}\" posY=\"{7}\" width=\"{8}\" height=\"{9}\" />",
+                            path, angle, anchorX, anchorY, scaleX, scaleY, posX/2, posY/2, img.Width/2, img.Height/2);
+                    }
+                    else if (this.dragCanvas.Children[i] is TextBlock)
+                    {
+                        TextBlock tblock = this.dragCanvas.Children[i] as TextBlock;
+                        angle = roTrans.Angle;
+                        posX = Canvas.GetLeft(tblock) * dpiWidthFactor;
+                        posY = Canvas.GetTop(tblock) * dpiHeightFactor;
+
+                        posX -= posX_back;
+                        posY -= posY_back;
+
+                        string font = tblock.FontFamily.ToString();
+                        double fontsize = tblock.FontSize;
+
+                        sw.WriteLine("\t<Text Name=\"{0}\" Type=\"Text\" angle=\"{1}\" posX=\"{2}\" posY=\"{3}\" font=\"{4}\" fontSize=\"{5}\"/>",
+                            path, angle, posX, posY, font, fontsize);
+                    }
+
+                }
+                sw.WriteLine("</Bundles>");
+
+                sw.Flush();
+                sw.Close();
+                fs.Close();
+            }
+        }
+
         private void MenuItem_Click_screen_resolution(object sender, RoutedEventArgs e)
         {
             if (e.Source == this.iPhone_resolution)
@@ -408,6 +533,13 @@ namespace UI_Helper
                 this.mapHeight = 640;
                 this.dragCanvas.Width = 960;
                 this.dragCanvas.Height = 640;
+            }
+            else if (e.Source == this.iPhone_Retina_portrait_resolution)
+            {
+                this.mapWidth = 640;
+                this.mapHeight = 960;
+                this.dragCanvas.Width = 640;
+                this.dragCanvas.Height = 960;
             }
             else if (e.Source == this.iPad_resolution)
             {

@@ -29,8 +29,9 @@
                 <MenuItem Header="退出" Click="MenuItem_Click_Quit"/>
             </MenuItem>
             <MenuItem Header="设置">
-                <MenuItem Header="iPhone" Name="iPhone_resolution" Click="MenuItem_Click_screen_resolution"/>
-                <MenuItem Header="iPhone Retina" Name="iPhone_Retina_resolution" Click="MenuItem_Click_screen_resolution"/>
+                <MenuItem Header="iPhone Landscape" Name="iPhone_resolution" Click="MenuItem_Click_screen_resolution"/>
+                <MenuItem Header="iPhone Retina Landscape" Name="iPhone_Retina_resolution" Click="MenuItem_Click_screen_resolution"/>
+                <MenuItem Header="iPhone Retina Portrait" Name="iPhone_Retina_portrait_resolution" Click="MenuItem_Click_screen_resolution"/>
                 <Separator />
                 <MenuItem Header="iPad" Name="iPad_resolution" Click="MenuItem_Click_screen_resolution"/>
                 <Separator />
@@ -42,7 +43,8 @@
                 <MenuItem Header="设为背景图" Click="set_background_Click"/>
             </MenuItem>
             <MenuItem Header="导出">
-                <MenuItem Header="导出xml文件" Click="MenuItem_Click_export_xml"/>
+                <MenuItem Header="导出OpenGL 下使用的xml文件" Click="MenuItem_Click_export_xml"/>
+                <MenuItem Header="导出iOS下使用的xml文件" Click="MenuItem_Click_export_ios_xml"/>
             </MenuItem>
             <MenuItem Header="帮助">
                 <MenuItem Header="帮助" Click="MenuItem_Click_Help"/>
