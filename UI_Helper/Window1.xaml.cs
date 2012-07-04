@@ -328,6 +328,8 @@ namespace UI_Helper
 
                     sw.WriteLine("Name=\"{0}\" Type=\"Pic\" angle=\"{1}\" anchorX=\"{2}\" anchorY=\"{3}\" scaleX=\"{4}\" scaleY=\"{5}\" posX=\"{6}\" posY=\"{7}\" >\r\n",
                         path, angle_back, anchorX_back, anchorY_back, scaleX_back, scaleY_back, posX_back, posY_back);
+                    posX_back -= roTrans.CenterX;
+                    posY_back = posY_back - img.Height + roTrans.CenterY; 
                 }
 
                 for (int i = 0; i < this.dragCanvas.Children.Count; ++i)
@@ -458,7 +460,7 @@ namespace UI_Helper
         private void MenuItem_Click_About(object sender, RoutedEventArgs e)
         {
             string aboutString = 
-                "UI编辑助手V2.1\n" +
+                "UI编辑助手V2.2\n" +
                 "\n" +
                 "有问题发邮件到 lisicheng@pwrd.com";
             string caption = "关于";
