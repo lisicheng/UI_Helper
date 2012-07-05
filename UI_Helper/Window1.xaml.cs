@@ -592,7 +592,7 @@ namespace UI_Helper
         private void MenuItem_Click_About(object sender, RoutedEventArgs e)
         {
             string aboutString = 
-                "UI编辑助手V2.2\n" +
+                "UI编辑助手V3.0\n" +
                 "\n" +
                 "有问题发邮件到 lisicheng@pwrd.com";
             string caption = "关于";
