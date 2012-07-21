@@ -2,12 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:jas="clr-namespace:WPF.JoshSmith.Controls" 
-    Title="UI编辑助手V2.2" Width="1024" Height="600"
+    Title="UI编辑助手V3.0" Width="1024" Height="600"
         Icon="/Images/UI_Helper.png"
         Closing="Window_Closing"
         >
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="200"/>
@@ -21,6 +22,11 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Menu Grid.ColumnSpan="5" Grid.Row="0">
+            <MenuItem Header="模式设置">
+                <MenuItem Header="Cocos2d-x" Name="cocos2d_x" Click="Global_Model_Select"/>
+                <MenuItem Header="Xcode-ObjC" Name="xcode_objc" Click="Global_Model_Select"/>
+                <MenuItem Header="Unity-2dToolKit" Name="unity_2dtoolkit" Click="Global_Model_Select"/>
+            </MenuItem>
             <MenuItem Header="文件">
                 <MenuItem Header="导入图片" Click="MenuItem_Click_OpenPictureFile"/>
                 <Separator />
@@ -43,8 +49,8 @@
                 <MenuItem Header="设为背景图" Click="set_background_Click"/>
             </MenuItem>
             <MenuItem Header="导出">
-                <MenuItem Header="导出OpenGL 下使用的xml文件" Click="MenuItem_Click_export_xml"/>
-                <MenuItem Header="导出iOS下使用的xml文件" Click="MenuItem_Click_export_ios_xml"/>
+                <MenuItem Header="根据模式设置导出xml文件" Name="export_xml_open_filechooser" Click="MenuItem_Click_export_mode_xml"/>
+                <MenuItem Header="导出到最近使用的同一文件地址" Name="export_xml_without_filechooser" Click="MenuItem_Click_export_mode_xml"/>
             </MenuItem>
             <MenuItem Header="帮助">
                 <MenuItem Header="帮助" Click="MenuItem_Click_Help"/>
